@@ -7,73 +7,67 @@ class Board extends Component {
     showGem1: "hide",
     showGem2: "hide",
     showGem3: "hide",
-    showSet1: "hide",
-    showSet2: "hide",
-    showSet3: "hide",
-    score: [0, 15, 30, 40, "AD"],
-    p1g1: [],
-    p1g2: [],
-    p1g3: [],
-    p2g1: [],
-    p2g2: [],
-    p2g3: [],
-    p1s1: "",
-    p1s2: "",
-    p1s3: "",
-    p2s1: "",
-    p2s2: "",
-    p2s3: "",
-    p1act: "",
-    p2act: "",
+    score: [0, 15, 30, 40, 45, 50],
+    actScore: "",
+    actGemScore2: "",
+    scoreCounter: 0,
+    scoreCounterGem2: 0,
+    actScore2: "",
+    scoreCounter2: 0
   };
 
-  handlePlayer1 = () => {
+  showGemPlayer1 = () => {
 
-    if ((this.state.p1g1.length - this.state.p2g1.length) >=2 && this.state.p1g1.length > 2) {
-        console.log(this.state.p1g1.length - this.state.p2g1.length)
+    if (this.state.actScore === 1) {
         this.setState({
-            p1act: "win"
+            actScore: "kupa"
         })
     } else {
 
-    let tempP1G1 = [];
-    let tempP2G1 = [];
-
-    this.setState({
-      showGem1: "gem",
-      p1act: this.state.score[this.state.p1g1.length + 1],
-    });
-    tempP1G1.push(this.state.p1act);
-
-    this.setState({
-      p1g1: [...this.state.p1g1, tempP1G1],
-      p2act: this.state.score[this.state.p2g1.length],
-    });
-}
-  };
-
-  handlePlayer2 = () => {
-
-    if ((this.state.p2g1.length - this.state.p1g1.length) >=2 && this.state.p2g1.length > 2) {
+    if (this.state.actScore <= 30) {
+      this.setState({
+        showGem1: "gem",
+        actScore: this.state.score[this.state.scoreCounter],
+        scoreCounter: this.state.scoreCounter + 1,
+      });
+    } else if (this.state.actScore < 50) {
+      this.setState({
+        actScore: "AD",
         
+      });
+    } else  {
+
+        if (this.state.actGemScore2 <= 30) {
         this.setState({
-            p2act: "win"
+            actScore: 1,
+            showGem1: "set",
+            showGem2: "gem",
+            actGemScore2: this.state.score[this.state.scoreCounterGem2],
+            scoreCounterGem2: this.state.scoreCounterGem2 + 1,
         })
-    } else {
-    let tempP1G1 = [];
-    let tempP2G1 = [];
-
-    this.setState({
-      showGem1: "gem",
-      p2act: this.state.score[this.state.p2g1.length + 1],
-    });
-    tempP2G1.push(this.state.p2act);
-
-    this.setState({
-      p2g1: [...this.state.p2g1, tempP2G1],
-      p1act: this.state.score[this.state.p1g1.length],
-    });
+    } else if (this.state.actGemScore2 < 50) {
+        this.setState({
+          actGemScore2: "AD",
+          
+        });
+      }
+    }
 }
+  };
+
+  showGemPlayer2 = () => {
+    if (this.state.actScore2 < 45) {
+      this.setState({
+        showGem1: "gem",
+        actScore2: this.state.score[this.state.scoreCounter2],
+        scoreCounter2: this.state.scoreCounter2 + 1,
+      });
+    } else if (this.state.actScore2) {
+      this.setState({
+        actScore2: 40,
+        scoreCounter2: 4,
+      });
+    }
   };
 
   render() {
@@ -82,12 +76,15 @@ class Board extends Component {
         <div className="top row ">
           <div className="serve">//</div>
           <div className="name">{this.props.player1}</div>
-          <div className={this.state.showSet1}>{this.state.p1s1}</div>
-          <div className={this.state.showGem1}>{this.state.p1act}</div>
-          <div>{this.state.p1g1.length}</div>
+
+          <div className={this.state.showGem1}>{this.state.actScore}</div>
+
           <div className={this.state.showGem2}>{this.state.actGemScore2}</div>
+
           <div className={this.state.showGem3}>{this.state.actGemScore3}</div>
-          <div className="scored" onClick={this.handlePlayer1}>
+
+
+          <div className="scored" onClick={this.showGemPlayer1}>
             Point{" "}
           </div>
         </div>
@@ -95,12 +92,9 @@ class Board extends Component {
         <div className="top row ">
           <div className="serve">//</div>
           <div className="name">{this.props.player2}</div>
-          <div className={this.state.showSet1}>{this.state.p1s1}</div>
-          <div className={this.state.showGem1}>{this.state.p2act}</div>
-            <div>{this.state.p2g1.length}</div>
-          <div className={this.state.showGem2}>{this.state.actGemScore2}</div>
-          <div className={this.state.showGem3}>{this.state.actGemScore3}</div>
-          <div className="scored" onClick={this.handlePlayer2}>
+
+          <div className={this.state.showGem0}>{this.state.actScore2}</div>
+          <div className="scored" onClick={this.showGemPlayer2}>
             Point{" "}
           </div>
         </div>
@@ -160,7 +154,7 @@ export const BoardWrapper = styled.div`
   .gem {
     width: 10vw;
     text-align: center;
-    background: linear-gradient(230deg, ${setColor.gemBcg}, #426159);
+    background: linear-gradient(230deg, ${setColor.gemBcg}, #426159 );
     height: 100%;
     display: flex;
     align-items: center;
@@ -173,7 +167,7 @@ export const BoardWrapper = styled.div`
   .set {
     width: 10vw;
     text-align: center;
-    background: linear-gradient(230deg, #426159, ${setColor.gemBcg});
+    background: linear-gradient(230deg,  #426159, ${setColor.gemBcg} );
     color: white;
     height: 100%;
     display: flex;
