@@ -11,29 +11,48 @@ class Board extends Component {
     actScore: "",
     actGemScore2: "",
     scoreCounter: 0,
+    scoreCounterGem2: 0,
     actScore2: "",
     scoreCounter2: 0
   };
 
   showGemPlayer1 = () => {
-    if (this.state.actScore < 45) {
+
+    if (this.state.actScore === 1) {
+        this.setState({
+            actScore: "kupa"
+        })
+    } else {
+
+    if (this.state.actScore <= 30) {
       this.setState({
         showGem1: "gem",
         actScore: this.state.score[this.state.scoreCounter],
         scoreCounter: this.state.scoreCounter + 1,
       });
-    } else if (this.state.actScore === 45) {
+    } else if (this.state.actScore < 50) {
       this.setState({
         actScore: "AD",
-        scoreCounter: this.state.scoreCounter + 1,
+        
       });
     } else  {
+
+        if (this.state.actGemScore2 <= 30) {
         this.setState({
-            actScore: "win",
+            actScore: 1,
+            showGem1: "set",
             showGem2: "gem",
-            actGemScore2: "dupa",
+            actGemScore2: this.state.score[this.state.scoreCounterGem2],
+            scoreCounterGem2: this.state.scoreCounterGem2 + 1,
         })
+    } else if (this.state.actGemScore2 < 50) {
+        this.setState({
+          actGemScore2: "AD",
+          
+        });
+      }
     }
+}
   };
 
   showGemPlayer2 = () => {
@@ -117,6 +136,7 @@ export const BoardWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    gap: 0.1rem;
   }
   .scored {
     height: 100%;
@@ -134,7 +154,21 @@ export const BoardWrapper = styled.div`
   .gem {
     width: 10vw;
     text-align: center;
-    background: linear-gradient(210deg, ${setColor.gemBcg}, #426159 );
+    background: linear-gradient(230deg, ${setColor.gemBcg}, #426159 );
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    animation: showGem 0.1s linear;
+  }
+
+  .set {
+    width: 10vw;
+    text-align: center;
+    background: linear-gradient(230deg,  #426159, ${setColor.gemBcg} );
+    color: white;
     height: 100%;
     display: flex;
     align-items: center;
