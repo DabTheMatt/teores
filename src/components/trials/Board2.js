@@ -30,22 +30,45 @@ class Board extends Component {
   };
 
   handlePlayer1 = () => {
-if (this.state.showGem1 === "gem") {
-  this.setState({
-    showSet1: "set",
-    showGem2: "gem",
-    p1s1: 1,
-    p2s1: 0,
-    p1g2act: 1
-  })
-} else {
+
+    if (this.state.p1act === 40 && this.state.p2act <= 30) {
+        console.log(this.state.p1g1.length - this.state.p2g1.length)
+        this.setState({
+            p1act: "win"
+        })
+    
+    } else if (this.state.p1act === "AD"){
+      let tempP1G2 = [];
+    let tempP2G2 = [];
+
+    this.setState({
+      showGem2: "gem",
+      p1g2act: this.state.score[this.state.p1g2.length + 1],
+    });
+    tempP1G2.push(this.state.p1g2act);
+
+    this.setState({
+      p1g2: [...this.state.p1g2, tempP1G2],
+      p2g2act: this.state.score[this.state.p2g2.length],
+    });
+      
+    } else {
+
+    let tempP1G1 = [];
+    let tempP2G1 = [];
+
     this.setState({
       showGem1: "gem",
-      p1act: "1"
-    })
-  }
+      p1g2act: this.state.score[this.state.p1g1.length + 1],
+    });
+    tempP1G1.push(this.state.p1act);
+
+    this.setState({
+      p1g1: [...this.state.p1g1, tempP1G1],
+      p2g2act: this.state.score[this.state.p2g1.length],
+    });
 }
-  
+  };
 
   handlePlayer2 = () => {
 
@@ -80,7 +103,7 @@ if (this.state.showGem1 === "gem") {
           <div className={this.state.showSet1}>{this.state.p1s1}</div>
           <div className={this.state.showGem1}>{this.state.p1act}</div>
           
-          <div className={this.state.showGem2}>{this.state.p1g2act}</div>
+          <div className={this.state.showGem2}>{this.state.actGemScore2}</div>
           <div className={this.state.showGem3}>{this.state.actGemScore3}</div>
           <div className="scored" onClick={this.handlePlayer1}>
             Point{" "}
@@ -196,11 +219,11 @@ export const BoardWrapper = styled.div`
 
   @keyframes showGem {
     0% {
-      width: 0%;
+      width: 0vw;
     }
 
     100% {
-      width: 10%;
+      width: 10vw;
     }
   }
 `;
