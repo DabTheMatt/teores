@@ -29,11 +29,12 @@ class Board extends Component {
 
   handlePlayer1 = () => {
 
-    if ((this.state.p1g1.length - this.state.p2g1.length) >=2 && this.state.p1g1.length > 2) {
+    if ((this.state.p1act === 40 && this.state.p2act <= 30) || (this.state.p1act === "AD" && this.state.p2act === 40)) {
         console.log(this.state.p1g1.length - this.state.p2g1.length)
         this.setState({
             p1act: "win"
         })
+    
     } else {
 
     let tempP1G1 = [];
